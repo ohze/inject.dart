@@ -206,10 +206,12 @@ class SymbolPath implements Comparable<SymbolPath> {
 
     if (relativeTo != null) {
       // Attempt to construct relative import.
+      // We don't split on the platform separator because Uris always
+      // use `/`.
       Uri normalizedBase = relativeTo.normalizePath();
-      List<String> baseSegments = pkg_path.split(normalizedBase.path)
+      List<String> baseSegments = normalizedBase.path.split('/')
         ..removeLast();
-      List<String> targetSegments = pkg_path.split(toAbsoluteUri().path);
+      List<String> targetSegments = toAbsoluteUri().path.split('/');
       if (baseSegments.first == targetSegments.first &&
           baseSegments[1] == targetSegments[1]) {
         // Ok, we're in the same package and in the same top-level directory.
@@ -220,7 +222,7 @@ class SymbolPath implements Comparable<SymbolPath> {
       }
     }
 
-    var pathSegments = pkg_path.split(path);
+    var pathSegments = path.split('/');
 
     if (pathSegments.first != 'lib') {
       throw new StateError(
