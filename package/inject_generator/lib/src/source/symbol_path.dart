@@ -51,7 +51,8 @@ class SymbolPath implements Comparable<SymbolPath> {
   ///   - 'lib/foo.dart'
   ///   - 'bin/bar.dart'
   ///   - 'test/some/file.dart'
-  final String path;
+  String get path => _pathSegments == null ? null : pkg_path.joinAll(_pathSegments);
+  final List<String> _pathSegments;
 
   /// Name of the top-level symbol within the Dart source code referenced.
   final String symbol;
@@ -85,7 +86,7 @@ class SymbolPath implements Comparable<SymbolPath> {
       throw new ArgumentError.value(
           symbol, 'symbol', 'Non-empty value required');
     }
-    return new SymbolPath._(package, path, symbol);
+    return new SymbolPath._(package, path.split('/'), symbol);
   }
 
   /// Within the dart SDK, reference [symbol] found at [path].
@@ -96,7 +97,7 @@ class SymbolPath implements Comparable<SymbolPath> {
   /// Defines a global symbol that is not scoped to a package/path.
   const SymbolPath.global(this.symbol)
       : package = null,
-        path = null;
+        _pathSegments = null;
 
   /// Create a [SymbolPath] using [assetUri].
   factory SymbolPath.fromAbsoluteUri(Uri assetUri, [String symbolName]) {
@@ -146,9 +147,9 @@ class SymbolPath implements Comparable<SymbolPath> {
 
   /// For standard annotations defined by `package:inject`.
   const SymbolPath._standard(String symbol)
-      : this._('inject', 'lib/src/api/annotations.dart', symbol);
+      : this._('inject', const ['lib', 'src', 'api', 'annotations.dart'], symbol);
 
-  const SymbolPath._(this.package, this.path, this.symbol);
+  const SymbolPath._(this.package, this._pathSegments, this.symbol);
 
   /// Whether the [path] points within the Dart SDK, not a pub package.
   bool get isDartSdk => package == _dartPackage;
