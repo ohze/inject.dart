@@ -49,6 +49,7 @@ class InjectSummaryBuilder extends AbstractInjectBuilder {
             lib,
             'no @module, @injector or @provide annotated classes '
             'found in library');
+        return '';
       }
       summary = new LibrarySummary(
         SymbolPath.toAssetUri(lib.source.uri),
@@ -68,10 +69,11 @@ class InjectSummaryBuilder extends AbstractInjectBuilder {
               'file is a valid Dart library.',
         );
       }
-      summary = new LibrarySummary(new Uri(
-        scheme: 'asset',
-        path: '${buildStep.inputId.package}/${buildStep.inputId.path}',
-      ));
+      return '';
+//      summary = new LibrarySummary(new Uri(
+//        scheme: 'asset',
+//        path: '${buildStep.inputId.package}/${buildStep.inputId.path}',
+//      ));
     }
     return _librarySummaryToJson(summary);
   }

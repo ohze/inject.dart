@@ -40,8 +40,12 @@ class InjectCodegenBuilder extends AbstractInjectBuilder {
     // We initially read in our <name>.inject.summary JSON blob, parse it, and
     // use it to generate a "{className}$Injector" Dart class for each @injector
     // annotation that was processed and put in the summary.
+    String summaryStr = await buildStep.readAsString(buildStep.inputId);
+    if (summaryStr.isEmpty) {
+      log.warning('empty summary for ${buildStep.inputId}');
+    }
     final summary = LibrarySummary.parseJson(jsonDecode(
-      await buildStep.readAsString(buildStep.inputId),
+      summaryStr,
     ));
 
     if (summary.injectors.isEmpty) {

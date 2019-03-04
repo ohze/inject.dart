@@ -23,6 +23,7 @@ abstract class AbstractInjectBuilder implements Builder {
   Future<Null> build(BuildStep buildStep) async {
     var outputFile = buildStep.inputId.changeExtension('.$outputExtension');
     var outputContents = await buildOutput(buildStep);
+    if (outputContents.isEmpty) return null;
     buildStep.writeAsString(outputFile, outputContents);
   }
 
