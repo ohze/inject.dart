@@ -9,3 +9,7 @@ package/inject/android/
 package/inject/ios/
 package/inject_generator/android/
 package/inject_generator/ios/
+.idea/
+*.iml
+*.inject.summary
+*.inject.dart
