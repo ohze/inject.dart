@@ -43,6 +43,10 @@ _Yes_, `package:inject` is framework and platform agnostic, and works perfectly
 well with Flutter or any other framework. We'll be releasing more
 documentation and samples of using this package with `flutter` in the future.
 
+To run examples with flutter, you need set FLUTTER_ROOT environment variables
+(ex, in ~/.bash_profile),
+then use command `flutter packages pub` instead of `pub`
+
 ### Can I use this with AngularDart?
 
 While technically, _yes_ (`package:inject` is framework and platform agnostic),
